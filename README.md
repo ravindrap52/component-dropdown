@@ -9,14 +9,23 @@ A web compoent build by using Lit.
 
 | Name | Type | Default | Description
 | --- | --- | --- | --- | 
-| displayName | string | Select | Use the displayName property to set the default label for the dropdown button
-| disableDropdownButton | boolean | false | Add attribute `disableDropdownButton` when you want to disable the dropdown
-| noItemsMessage | string | No items available | Message to display when no items are available
-| selectedValue | string | ' ' | Pass the value, when you want to set the defaule value for dropdown
-| selectedItem | function | -  | event: Emit the event with the selected data
-| data | Array | []  | Data can be array of strings or array of objects <br> eg:  ['Option1', 'Option2', 'Option3', 'Option4'] <br> [{ label: 'Option 1', value: 'option-1' }, { label: 'Option 2', value: 'option-2' }]
+| displayName | string | Select | The default label displayed on the dropdown button when no item is selected. You can set this to any string value to change the default label.
+| disableDropdownButton | boolean | false | Add attribute `disableDropdownButton` when you want to disable the dropdown.
+| noItemsMessage | string | No items available | Message displayed when the dropdown has no items available.
+| selectedValue | string | ' ' | Sets the default selected value of the dropdown. 
+| selectedItem | function | -  | The event is fired when a user selects an item, and it contains the selected item's details.
+| data | Array | []  | An array of items that populate the dropdown. This can either be an array of strings or an array of objects. <br> eg:  ['Option1', 'Option2', 'Option3', 'Option4'] <br> [{ label: 'Option 1', value: 'option-1' }, { label: 'Option 2', value: 'option-2' }]
    
-
+## How to use
+```
+<dropdown-menu
+  .data=${[{ label: 'Option 1', value: 'option-1' }, { label: 'Option 2', value: 'option-2' }]}
+  displayName="Select an option"
+  selectedValue="option-2"
+  noItemsMessage="No options available"
+  @selectedItem=${(e) => console.log('Selected:', e.detail)}>
+</dropdown-menu>
+```
 
 ## Libraries Used
 
