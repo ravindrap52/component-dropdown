@@ -19,7 +19,7 @@ export class DropdownMenu extends LitElement {
   static styles = [dropDownStyles];
 
   @property({ type: String })
-  nameToDisplay = 'select';
+  displayName = 'Select';
 
   @property({ type: Boolean })
   disableDropdownButton = false;
@@ -131,7 +131,7 @@ export class DropdownMenu extends LitElement {
   private getSelectedLabel(): string {
     const selectedItem = this.normalizeData.find((item) => item.value === this.selectedValue);
     this.selectedItem = selectedItem?.value || '';
-    return selectedItem ? selectedItem.label : this.nameToDisplay;
+    return selectedItem ? selectedItem.label : this.displayName;
   }
 
   render() {

@@ -1,13 +1,17 @@
 import { css, html, LitElement } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { customElement, state } from 'lit/decorators.js';
 
 import { dataAsStringArray, dataAsArrayObjects } from './data';
 
 // importing dropdown menu component
 import './dropdown-menu';
+import { DropdownItem } from './types';
 
 @customElement('example-usecases')
 export class ExampleUsecases extends LitElement {
+  @state()
+  protected currentSelectedValue: string = '';
+
   static styles = css`
     :host {
       display: flex;
@@ -17,27 +21,46 @@ export class ExampleUsecases extends LitElement {
       padding: 1rem;
     }
   `;
+  private handleSelectedItem(event: CustomEvent<DropdownItem>) {
+    this.currentSelectedValue = event.detail.value;
+  }
+
   render() {
     return html`
       <div>
-        <p>Passing a display name as a property</p>
-        <dropdown-menu nameToDisplay="Select an option"></dropdown-menu>
+        <p>Use the displayName property to set the default label for the dropdown button</p>
+        <dropdown-menu displayName="Select an option"></dropdown-menu>
       </div>
       <div>
-        <p>Passing the <code>disableDropdownButton</code> property will disable the dropdown</p>
+        <p>Set the <code>disableDropdownButton</code> property to disable the dropdown and prevent user interaction</p>
         <dropdown-menu disableDropdownButton=""></dropdown-menu>
       </div>
       <div>
-        <p>Passing the <code>primary</code> class will apply primary styles to the dropdown</p>
+        <p>By passing the <code>primary</code> class, you apply the primary styling to the dropdown</p>
         <dropdown-menu class="primary" .data="${dataAsStringArray}"></dropdown-menu>
       </div>
       <div>
-        <p>Passing the <code>secondary</code> class will apply secondary styles to the dropdown</p>
+        <p>By passing the <code>secondary</code> class, you apply the secondary styling to the dropdown</p>
         <dropdown-menu class="secondary" .data="${dataAsArrayObjects}"></dropdown-menu>
       </div>
       <div>
-        <p>Passing the <code>selected value</code> so that we can set the default value in the dropdown</p>
-        <dropdown-menu class="secondary" .data="${dataAsArrayObjects}" selectedValue="option-4"></dropdown-menu>
+        <p>
+        You can pass the <code>selected value</code>  property to set a default selected option in the dropdown
+        </p>
+        <dropdown-menu
+          class="secondary"
+          .data="${dataAsArrayObjects}"
+          selectedValue="option-4"
+        ></dropdown-menu>
+      </div>
+      <div>
+        <p>Select an item from the dropdown, and the selected value will be displayed here</p>
+        <p>Selected Value: ${this.currentSelectedValue}</p>
+        <dropdown-menu
+          class="secondary"
+          .data="${dataAsArrayObjects}"
+          @selectedItem="${this.handleSelectedItem}"
+        ></dropdown-menu>
       </div>
     `;
   }
