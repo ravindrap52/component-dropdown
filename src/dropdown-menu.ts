@@ -109,7 +109,7 @@ export class DropdownMenu extends LitElement {
   }
 
   /**
-   * This method formats the data when it's an array of strings, 
+   * This method formats the data when it's an array of strings,
    * returning it as an array of objects with label and value properties.
    * @returns Array<DropdownItem>.
    */
@@ -179,7 +179,7 @@ export class DropdownMenu extends LitElement {
           class="dropdown-button"
           aria-label="Toggle dropdown"
         >
-          <slot>${this.getSelectedLabel()}</slot>
+          ${this.getSelectedLabel()}
         </button>
         <ul
           role="menu"
