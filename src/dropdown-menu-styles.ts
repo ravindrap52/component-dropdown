@@ -120,7 +120,7 @@ export const dropDownStyles = css`
   }
 
   .dropdown-button[disabled] {
-    cursor: not-allowed
+    cursor: not-allowed;
   }
 
   .dropdown-list {

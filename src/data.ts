@@ -1,4 +1,4 @@
-import { DropdownItem } from "./types";
+import { DropdownItem } from './types';
 
 export const dataAsStringArray: string[] = ['Option1', 'Option2', 'Option3', 'Option4'];
 
