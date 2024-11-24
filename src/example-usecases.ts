@@ -35,6 +35,10 @@ export class ExampleUsecases extends LitElement {
         <p>Passing the <code>secondary</code> class will apply secondary styles to the dropdown</p>
         <dropdown-menu class="secondary" .data="${dataAsArrayObjects}"></dropdown-menu>
       </div>
+      <div>
+        <p>Passing the <code>selected value</code> so that we can set the default value in the dropdown</p>
+        <dropdown-menu class="secondary" .data="${dataAsArrayObjects}" selectedValue="option-4"></dropdown-menu>
+      </div>
     `;
   }
 }

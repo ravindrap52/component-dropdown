@@ -27,6 +27,9 @@ export class DropdownMenu extends LitElement {
   @property({ type: String })
   noItemsMessage = 'No items available';
 
+  @property({ type: String })
+  selectedValue = '';
+
   @property({
     type: Array,
     reflect: true,
@@ -75,6 +78,7 @@ export class DropdownMenu extends LitElement {
   private handleItemClick(event: Event, item: DropdownItem): void {
     event.preventDefault();
     this.selectedItem = item.value;
+    this.selectedValue = item.value;
     const selectedItemEvent = new CustomEvent<DropdownItem>('selectedItem', {
       detail: {
         label: item.label,
@@ -85,9 +89,9 @@ export class DropdownMenu extends LitElement {
     this.open = false;
   }
 
-  private normalizeData(data: DropDownData): Array<DropdownItem> {
-    if (!data || data.length === 0) return [];
-    return data.map((item) => {
+  private get normalizeData(): Array<DropdownItem> {
+    if (!this.data || this.data.length === 0) return [];
+    return this.data.map((item) => {
       if (typeof item === 'string') {
         // If the item is a string, convert it to a DropdownItem
         return { label: item, value: item };
@@ -97,7 +101,7 @@ export class DropdownMenu extends LitElement {
   }
 
   private renderItems(): TemplateResult<1>[] {
-    const normalizedData = this.normalizeData(this.data);
+    const normalizedData = this.normalizeData;
     if (normalizedData.length === 0) {
       // If no items are available (empty or invalid data), return a fallback message
       return [
@@ -124,6 +128,11 @@ export class DropdownMenu extends LitElement {
       `,
     );
   }
+  private getSelectedLabel(): string {
+    const selectedItem = this.normalizeData.find((item) => item.value === this.selectedValue);
+    this.selectedItem = selectedItem?.value || '';
+    return selectedItem ? selectedItem.label : this.nameToDisplay;
+  }
 
   render() {
     return html`
@@ -137,7 +146,7 @@ export class DropdownMenu extends LitElement {
           class="dropdown-button"
           aria-label="Toggle dropdown"
         >
-          <slot>${this.selectedItem ? this.selectedItem : this.nameToDisplay}</slot>
+          <slot>${this.getSelectedLabel()}</slot>
         </button>
         <ul
           role="menu"
