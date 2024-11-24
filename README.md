@@ -37,7 +37,6 @@ npm run dev
 
 #### This will open the browser and navigate to http://localhost:5173.
 
-
 ### Building for Production
 
 To build the project for production, use:
