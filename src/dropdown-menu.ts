@@ -1,5 +1,5 @@
-import { LitElement, css, html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { LitElement, html } from 'lit';
+import { customElement } from 'lit/decorators.js';
 
 @customElement('dropdown-menu')
 export class DropdownMenu extends LitElement {
