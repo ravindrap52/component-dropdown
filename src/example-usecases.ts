@@ -1,6 +1,8 @@
 import { css, html, LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
+import { dataAsStringArray, dataAsArrayObjects } from './data';
+
 // importing dropdown menu component
 import './dropdown-menu';
 
@@ -9,16 +11,30 @@ export class ExampleUsecases extends LitElement {
   static styles = css`
     :host {
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       gap: 1rem;
       width: 100%;
+      padding: 1rem;
     }
   `;
   render() {
     return html`
-      <dropdown-menu></dropdown-menu>
-      <dropdown-menu></dropdown-menu>
-      <dropdown-menu></dropdown-menu>
+      <div>
+        <p>Passing a display name as a property</p>
+        <dropdown-menu nameToDisplay="Select an option"></dropdown-menu>
+      </div>
+      <div>
+        <p>Passing the <code>disableDropdownButton</code> property will disable the dropdown</p>
+        <dropdown-menu disableDropdownButton=""></dropdown-menu>
+      </div>
+      <div>
+        <p>Passing the <code>primary</code> class will apply primary styles to the dropdown</p>
+        <dropdown-menu class="primary" .data="${dataAsStringArray}"></dropdown-menu>
+      </div>
+      <div>
+        <p>Passing the <code>secondary</code> class will apply secondary styles to the dropdown</p>
+        <dropdown-menu class="secondary" .data="${dataAsArrayObjects}"></dropdown-menu>
+      </div>
     `;
   }
 }

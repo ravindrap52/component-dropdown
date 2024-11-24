@@ -1,23 +1,153 @@
-import { LitElement, html } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { html, LitElement, TemplateResult } from 'lit';
+import { customElement, property, state } from 'lit/decorators.js';
+import { classMap } from 'lit/directives/class-map.js';
+
+import { DropDownData, DropdownItem } from './types';
+
+import { DropDownDataSchema } from './dropdownSchema';
+
+import { dropDownStyles } from './dropdown-menu-styles';
 
 @customElement('dropdown-menu')
 export class DropdownMenu extends LitElement {
+  @state()
+  protected open: boolean = false;
+
+  @state()
+  protected selectedItem: string = '';
+
+  static styles = [dropDownStyles];
+
+  @property({ type: String })
+  nameToDisplay = 'select';
+
+  @property({ type: Boolean })
+  disableDropdownButton = false;
+
+  @property({ type: String })
+  noItemsMessage = 'No items available';
+
+  @property({
+    type: Array,
+    reflect: true,
+    converter: {
+      fromAttribute(value: string): DropDownData {
+        if (!value) return [];
+        try {
+          const parsedData = JSON.parse(value);
+          const result = DropDownDataSchema.safeParse(parsedData);
+          if (result.success) {
+            return result.data;
+          } else {
+            console.error('Invalid data format:', result.error);
+            return [];
+          }
+        } catch (error) {
+          console.error('Error parsing JSON data:', error);
+          return [];
+        }
+      },
+    },
+  })
+  data: DropDownData = [];
+
+  connectedCallback(): void {
+    super.connectedCallback();
+    document.addEventListener('click', this.handleOutsideClick);
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+    document.removeEventListener('click', this.handleOutsideClick);
+  }
+
+  private handleOutsideClick = (event: MouseEvent): void => {
+    if (!this.contains(event.target as Node)) {
+      this.open = false;
+    }
+  };
+
+  private toggleDropdown(event: Event): void {
+    event.stopPropagation();
+    this.open = !this.open;
+  }
+
+  private handleItemClick(event: Event, item: DropdownItem): void {
+    event.preventDefault();
+    this.selectedItem = item.value;
+    const selectedItemEvent = new CustomEvent<DropdownItem>('selectedItem', {
+      detail: {
+        label: item.label,
+        value: item.value,
+      },
+    });
+    this.dispatchEvent(selectedItemEvent);
+    this.open = false;
+  }
+
+  private normalizeData(data: DropDownData): Array<DropdownItem> {
+    if (!data || data.length === 0) return [];
+    return data.map((item) => {
+      if (typeof item === 'string') {
+        // If the item is a string, convert it to a DropdownItem
+        return { label: item, value: item };
+      }
+      return item;
+    });
+  }
+
+  private renderItems(): TemplateResult<1>[] {
+    const normalizedData = this.normalizeData(this.data);
+    if (normalizedData.length === 0) {
+      // If no items are available (empty or invalid data), return a fallback message
+      return [
+        html`<li class="dropdown-item no-items-available" role="menuitem" aria-disabled="true">
+          ${this.noItemsMessage}
+        </li>`,
+      ];
+    }
+    return normalizedData.map(
+      (item) => html`
+        <li role="menuitem" tabindex="0" class="dropdown-item">
+          <a
+            href="javascript:void(0)"
+            value=${item.value}
+            @click=${(e: Event) => this.handleItemClick(e, item)}
+            aria-selected="${this.selectedItem === item.value}"
+            class=${classMap({
+              active: this.selectedItem === item.value,
+            })}
+          >
+            ${item.label}
+          </a>
+        </li>
+      `,
+    );
+  }
+
   render() {
     return html`
       <div class="dropdown">
         <button
-          class="btn btn-secondary dropdown-toggle"
           type="button"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
+          aria-expanded="${this.open}"
+          aria-controls="dropdown-menu-list"
+          ?disabled="${this.disableDropdownButton}"
+          @click=${this.toggleDropdown}
+          class="dropdown-button"
+          aria-label="Toggle dropdown"
         >
-          Dropdown button
+          <slot>${this.selectedItem ? this.selectedItem : this.nameToDisplay}</slot>
         </button>
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#">Action</a></li>
-          <li><a class="dropdown-item" href="#">Another action</a></li>
-          <li><a class="dropdown-item" href="#">Something else here</a></li>
+        <ul
+          role="menu"
+          id="dropdown-menu-list"
+          class=${classMap({
+            'dropdown-list': true,
+            show: this.open,
+          })}
+        >
+          ${this.renderItems()}
         </ul>
       </div>
     `;
