@@ -62,6 +62,25 @@ export class ExampleUsecases extends LitElement {
           @selectedItem="${this.handleSelectedItem}"
         ></dropdown-menu>
       </div>
+      <div>
+        <p>Aligning Dropdown to the Left </p>
+        <dropdown-menu
+          align="left"
+          class="secondary"
+          .data="${dataAsArrayObjects}"
+          @selectedItem="${this.handleSelectedItem}"
+        ></dropdown-menu>
+      </div>
+      <div>
+        <p>Aligning Dropdown to the Right </p>
+        <dropdown-menu
+          align="right"
+          class="secondary"
+          .data="${dataAsArrayObjects}"
+          @selectedItem="${this.handleSelectedItem}"
+        ></dropdown-menu>
+      </div>
+
     `;
   }
 }

@@ -58,12 +58,14 @@ export const dropDownStyles = css`
     top: 100%;
     right: 0;
     left: auto;
+    width: auto;
   }
 
-  :host([align='top']) .dropdown-list {
-    bottom: 100%;
-    top: auto;
+  :host([align='left']) .dropdown-list {
+    top: 100%;
     left: 0;
+    right: auto;
+    width: auto;
   }
 
   .dropdown * {
@@ -130,7 +132,7 @@ export const dropDownStyles = css`
     border-radius: 5px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     list-style-type: none;
-    min-width: 160px;
+    min-width: 130px;
     width: 100%;
     margin: 0;
     padding: 0;
@@ -171,7 +173,7 @@ export const dropDownStyles = css`
     background-color: var(--dropdown-item-hover-background);
     border-left: 4px solid var(--dropdown-item-hover-border-left);
     color: var(--dropdown-item-hover-color);
-    padding-left: 24px;
+    padding-left: 12px;
   }
 
   .dropdown-item a.active {
