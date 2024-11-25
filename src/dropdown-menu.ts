@@ -91,21 +91,29 @@ export class DropdownMenu extends LitElement {
    * This method will set the selected item and selected value, and it will dispatch the selectedItem
    * event, and this will close the dropdown after selecting the item.
    * @param {Event} event - event.
-   * @param {DropdownItem} item - The selected item.
    * @returns void.
    */
-  private handleItemClick(event: Event, item: DropdownItem): void {
-    event.preventDefault();
-    this.selectedItem = item.value;
-    this.selectedValue = item.value;
-    const selectedItemEvent = new CustomEvent<DropdownItem>('selectedItem', {
-      detail: {
-        label: item.label,
-        value: item.value,
-      },
-    });
-    this.dispatchEvent(selectedItemEvent);
-    this.open = false;
+  private handleItemClick(event: Event): void {
+    const target = event.target as HTMLElement;
+
+    if (target && target.closest('.dropdown-item')) {
+      const itemValue = target.getAttribute('value');
+      if (itemValue) {
+        const item = this.normalizeData.find((elem) => elem.value === itemValue);
+        if (item) {
+          this.selectedItem = item.value;
+          this.selectedValue = item.value;
+          const selectedItemEvent = new CustomEvent<DropdownItem>('selectedItem', {
+            detail: {
+              label: item.label,
+              value: item.value,
+            },
+          });
+          this.dispatchEvent(selectedItemEvent);
+          this.open = false;
+        }
+      }
+    }
   }
 
   /**
@@ -143,7 +151,6 @@ export class DropdownMenu extends LitElement {
           <a
             href="javascript:void(0)"
             value=${item.value}
-            @click=${(e: Event) => this.handleItemClick(e, item)}
             aria-selected="${this.selectedItem === item.value}"
             class=${classMap({
               active: this.selectedItem === item.value,
@@ -182,6 +189,7 @@ export class DropdownMenu extends LitElement {
           ${this.getSelectedLabel()}
         </button>
         <ul
+          @click=${(e: Event) => this.handleItemClick(e)}
           role="menu"
           id="dropdown-menu-list"
           class=${classMap({
