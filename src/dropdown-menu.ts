@@ -194,6 +194,7 @@ export class DropdownMenu extends LitElement {
           id="dropdown-menu-list"
           class=${classMap({
             'dropdown-list': true,
+            'dropdown-list--height': !this.normalizeData.length ? false : true,
             show: this.open,
           })}
         >

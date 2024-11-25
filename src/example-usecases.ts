@@ -32,20 +32,29 @@ export class ExampleUsecases extends LitElement {
         <dropdown-menu displayName="Select an option"></dropdown-menu>
       </div>
       <div>
-        <p>Set the <code>disableDropdownButton</code> property to disable the dropdown and prevent user interaction</p>
+        <p>
+          Set the <code>disableDropdownButton</code> property to disable the dropdown and prevent
+          user interaction
+        </p>
         <dropdown-menu disableDropdownButton=""></dropdown-menu>
       </div>
       <div>
-        <p>By passing the <code>primary</code> class, you apply the primary styling to the dropdown</p>
+        <p>
+          By passing the <code>primary</code> class, you apply the primary styling to the dropdown
+        </p>
         <dropdown-menu class="primary" .data="${dataAsStringArray}"></dropdown-menu>
       </div>
       <div>
-        <p>By passing the <code>secondary</code> class, you apply the secondary styling to the dropdown</p>
+        <p>
+          By passing the <code>secondary</code> class, you apply the secondary styling to the
+          dropdown
+        </p>
         <dropdown-menu class="secondary" .data="${dataAsArrayObjects}"></dropdown-menu>
       </div>
       <div>
         <p>
-        You can pass the <code>selected value</code>  property to set a default selected option in the dropdown
+          You can pass the <code>selected value</code> property to set a default selected option in
+          the dropdown
         </p>
         <dropdown-menu
           class="secondary"
@@ -63,24 +72,13 @@ export class ExampleUsecases extends LitElement {
         ></dropdown-menu>
       </div>
       <div>
-        <p>Aligning Dropdown to the Left </p>
-        <dropdown-menu
-          align="left"
-          class="secondary"
-          .data="${dataAsArrayObjects}"
-          @selectedItem="${this.handleSelectedItem}"
-        ></dropdown-menu>
+        <p>Aligning Dropdown to the Left</p>
+        <dropdown-menu align="left" class="secondary" .data="${dataAsArrayObjects}"></dropdown-menu>
       </div>
       <div>
-        <p>Aligning Dropdown to the Right </p>
-        <dropdown-menu
-          align="right"
-          class="secondary"
-          .data="${dataAsArrayObjects}"
-          @selectedItem="${this.handleSelectedItem}"
-        ></dropdown-menu>
+        <p>Aligning Dropdown to the Right</p>
+        <dropdown-menu align="right" class="primary" .data="${dataAsStringArray}"></dropdown-menu>
       </div>
-
     `;
   }
 }

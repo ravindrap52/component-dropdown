@@ -132,11 +132,11 @@ export const dropDownStyles = css`
     border-radius: 5px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     list-style-type: none;
-    min-width: 130px;
-    width: 100%;
     margin: 0;
     padding: 0;
     opacity: 0;
+    min-width: 130px;
+    width: 100%;
     transform: translateY(-10px);
     position: absolute;
     transition:
@@ -144,6 +144,10 @@ export const dropDownStyles = css`
       visibility 0s 0.3s,
       transform 0.3s ease;
     z-index: 1;
+  }
+  .dropdown-list--height {
+    height: 320px;
+    overflow: auto;
   }
 
   .dropdown-list.show {
@@ -181,7 +185,7 @@ export const dropDownStyles = css`
     color: var(--dropdown-item-hover-color);
   }
   .no-items-available {
-    padding: 1rem;
+    padding: 16px;
     color: var(--dropdown-item-color);
   }
 `;
